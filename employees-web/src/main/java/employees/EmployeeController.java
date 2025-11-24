@@ -1,5 +1,6 @@
 package employees;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<EmployeeDto>> save(@RequestBody Mono<EmployeeDto> employeeDto,
+    public Mono<ResponseEntity<EmployeeDto>> save(@Valid @RequestBody Mono<EmployeeDto> employeeDto,
                                                   UriComponentsBuilder uriComponentsBuilder) {
         return service
                 .save(employeeDto)
@@ -41,7 +42,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<EmployeeDto>> update(@PathVariable long id, @RequestBody Mono<EmployeeDto> employeeDto) {
+    public Mono<ResponseEntity<EmployeeDto>> update(@PathVariable long id, @Valid @RequestBody Mono<EmployeeDto> employeeDto) {
         return employeeDto
                 .filter(e -> e.id() != null && e.id() == id)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("ID mismatch: %d".formatted(id))))

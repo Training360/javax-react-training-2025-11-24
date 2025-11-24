@@ -1,4 +1,6 @@
 package employees;
 
-public record EmployeeDto(Long id, String name) {
+import jakarta.validation.constraints.NotBlank;
+
+public record EmployeeDto(Long id, @NotBlank String name) {
 }
