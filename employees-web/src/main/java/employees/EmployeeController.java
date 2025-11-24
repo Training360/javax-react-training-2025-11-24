@@ -2,10 +2,7 @@ package employees;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -27,5 +24,20 @@ public class EmployeeController {
                 .findById(id)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public Mono<EmployeeDto> save(@RequestBody Mono<EmployeeDto> employeeDto) {
+        return service.save(employeeDto);
+    }
+
+    @PutMapping("/{id}")
+    public Mono<EmployeeDto> update(@PathVariable long id, @RequestBody Mono<EmployeeDto> employeeDto) {
+        return service.save(employeeDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<Void> deleteById(@PathVariable long id) {
+        return service.deleteById(id);
     }
 }

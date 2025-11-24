@@ -9,3 +9,23 @@ GET http://localhost:8080/api/employees/1
 
 ### Not found
 GET http://localhost:8080/api/employees/999
+
+### Create employee
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+
+{
+  "name": "Jack Doe"
+}
+
+### Update employee
+PUT http://localhost:8080/api/employees/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "John Smith"
+}
+
+### Delete employee
+DELETE http://localhost:8080/api/employees/1
