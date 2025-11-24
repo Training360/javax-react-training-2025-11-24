@@ -1,1 +1,11 @@
+### Hello
 GET http://localhost:8080/hello
+
+### List employees
+GET http://localhost:8080/api/employees
+
+### Get employee by ID
+GET http://localhost:8080/api/employees/1
+
+### Not found
+GET http://localhost:8080/api/employees/999
