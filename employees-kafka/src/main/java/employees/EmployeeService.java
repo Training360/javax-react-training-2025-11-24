@@ -1,6 +1,7 @@
 package employees;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,6 +13,8 @@ import java.util.Map;
 public class EmployeeService {
 
     private final EmployeeRepository repository;
+
+    private final StreamBridge streamBridge;
 
     public Flux<EmployeeDto> findAll() {
         return repository.findDtoAll();
@@ -29,7 +32,9 @@ public class EmployeeService {
         return employeeDto
                 .map(EmployeeService::toEntity)
                 .flatMap(repository::save)
-                .map(EmployeeService::toDto);
+                .map(EmployeeService::toDto)
+                .doOnNext(employee -> streamBridge.send("employeesEvents", employee))
+                ;
     }
 
     public Mono<Void> deleteById(long id) {
