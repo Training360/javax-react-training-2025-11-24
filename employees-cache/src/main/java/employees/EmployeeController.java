@@ -29,6 +29,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public Mono<ResponseEntity<EmployeeDto>> findById(@PathVariable long id) {
+        log.info("findById({})", id);
         return service
                 .findById(id)
                 .map(ResponseEntity::ok)
