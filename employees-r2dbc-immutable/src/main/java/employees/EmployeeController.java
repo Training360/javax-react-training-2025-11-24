@@ -31,6 +31,14 @@ public class EmployeeController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{id}/short")
+    public Mono<ResponseEntity<ShortEmployeeDto>> findShortById(@PathVariable long id) {
+        return service
+                .findShortById(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public Mono<ResponseEntity<EmployeeDto>> save(@Valid @RequestBody Mono<EmployeeDto> employeeDto,
                                                   UriComponentsBuilder uriComponentsBuilder) {

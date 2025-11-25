@@ -5,13 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Data
-@AllArgsConstructor
 @Table("employees")
-public class Employee {
+public record Employee(@Id Long id, String name) {
 
-    @Id
-    private Long id;
-
-    private String name;
 }

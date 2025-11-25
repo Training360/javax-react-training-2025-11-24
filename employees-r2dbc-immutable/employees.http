@@ -7,6 +7,10 @@ GET http://localhost:8080/api/employees
 ### Get employee by ID
 GET http://localhost:8080/api/employees/1
 
+### Get employee by ID
+GET http://localhost:8080/api/employees/1/short
+
+
 ### Not found
 GET http://localhost:8080/api/employees/999
 

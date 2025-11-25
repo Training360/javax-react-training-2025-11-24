@@ -14,11 +14,15 @@ public class EmployeeService {
     private final EmployeeRepository repository;
 
     public Flux<EmployeeDto> findAll() {
-        return repository.findAll().map(EmployeeService::toDto);
+        return repository.findDtoAll();
     }
 
     public Mono<EmployeeDto> findById(long id) {
-        return repository.findById(id).map(EmployeeService::toDto);
+        return repository.findDtoById(id, EmployeeDto.class);
+    }
+
+    public Mono<ShortEmployeeDto> findShortById(long id) {
+        return repository.findDtoById(id, ShortEmployeeDto.class);
     }
 
     public Mono<EmployeeDto> save(Mono<EmployeeDto> employeeDto) {
@@ -34,7 +38,7 @@ public class EmployeeService {
 
     // MapStruct kéne használni
     private static EmployeeDto toDto(Employee employee) {
-        return new EmployeeDto(employee.getId(), employee.getName());
+        return new EmployeeDto(employee.id(), employee.name());
     }
 
     private static Employee toEntity(EmployeeDto employeeDto) {
