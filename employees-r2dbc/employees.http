@@ -1,0 +1,57 @@
+### Hello
+GET http://localhost:8080/hello
+
+### List employees
+GET http://localhost:8080/api/employees
+
+### Get employee by ID
+GET http://localhost:8080/api/employees/1
+
+### Not found
+GET http://localhost:8080/api/employees/999
+
+### Create employee
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+
+{
+  "name": "Jack Doe"
+}
+
+### Create employee with validation error
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+
+{
+  "name": ""
+}
+
+### Update employee
+PUT http://localhost:8080/api/employees/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "John Smith"
+}
+
+### Update employee with mismatched ID
+PUT http://localhost:8080/api/employees/1
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "John Smith"
+}
+
+### Update employee not found
+PUT http://localhost:8080/api/employees/999
+Content-Type: application/json
+
+{
+  "id": 999,
+  "name": "John Smith"
+}
+
+### Delete employee
+DELETE http://localhost:8080/api/employees/1
