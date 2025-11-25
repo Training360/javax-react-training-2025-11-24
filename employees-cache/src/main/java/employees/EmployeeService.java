@@ -1,6 +1,8 @@
 package employees;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -13,12 +15,23 @@ public class EmployeeService {
 
     private final EmployeeRepository repository;
 
+    private final ReactiveRedisTemplate reactiveRedisTemplate;
+
     public Flux<EmployeeDto> findAll() {
         return repository.findDtoAll();
     }
 
     public Mono<EmployeeDto> findById(long id) {
-        return repository.findDtoById(id, EmployeeDto.class);
+        return reactiveRedisTemplate.opsForValue().get(id)
+                .log()
+                .switchIfEmpty(
+                        repository
+                                .findDtoById(id, EmployeeDto.class)
+                                .flatMap(employeeDto ->
+                                        reactiveRedisTemplate.opsForValue().set(id, employeeDto)
+                                                .thenReturn(employeeDto))
+                )
+                .log();
     }
 
     public Mono<ShortEmployeeDto> findShortById(long id) {
@@ -29,7 +42,10 @@ public class EmployeeService {
         return employeeDto
                 .map(EmployeeService::toEntity)
                 .flatMap(repository::save)
-                .map(EmployeeService::toDto);
+                .map(EmployeeService::toDto)
+                .flatMap(dto -> reactiveRedisTemplate.opsForValue().set(dto.id(), dto)
+                        .thenReturn(dto))
+                ;
     }
 
     public Mono<Void> deleteById(long id) {
