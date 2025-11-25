@@ -11,10 +11,13 @@ import reactor.core.publisher.Flux;
 @RequestMapping("/api/employees")
 public class CoursesController {
 
-    private final EmployeeGateway employeeGateway;
+//    private final EmployeeGateway employeeGateway;
+
+    private final EmployeesClient employeesClient;
 
     @GetMapping
     public Flux<Employee> findAll() {
-        return employeeGateway.findAll();
+//        return employeeGateway.findAll();
+        return employeesClient.findAll();
     }
 }
