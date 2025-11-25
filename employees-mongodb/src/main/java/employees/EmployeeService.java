@@ -14,14 +14,14 @@ public class EmployeeService {
     private final EmployeeRepository repository;
 
     public Flux<EmployeeDto> findAll() {
-        return repository.findDtoAll();
+        return repository.findAllBy();
     }
 
-    public Mono<EmployeeDto> findById(long id) {
+    public Mono<EmployeeDto> findById(String id) {
         return repository.findDtoById(id, EmployeeDto.class);
     }
 
-    public Mono<ShortEmployeeDto> findShortById(long id) {
+    public Mono<ShortEmployeeDto> findShortById(String id) {
         return repository.findDtoById(id, ShortEmployeeDto.class);
     }
 
@@ -32,7 +32,7 @@ public class EmployeeService {
                 .map(EmployeeService::toDto);
     }
 
-    public Mono<Void> deleteById(long id) {
+    public Mono<Void> deleteById(String id) {
         return repository.deleteById(id);
     }
 

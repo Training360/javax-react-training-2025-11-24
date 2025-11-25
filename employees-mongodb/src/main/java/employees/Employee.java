@@ -1,11 +1,9 @@
 package employees;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Table("employees")
-public record Employee(@Id Long id, String name) {
+@Document
+public record Employee(@Id String id, String name) {
 
 }
