@@ -2,6 +2,7 @@ package employees;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +15,16 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/employees")
 @RequiredArgsConstructor
+@Slf4j
 public class EmployeeController {
 
     private final EmployeeService service;
 
     @GetMapping
     public Flux<EmployeeDto> findAll() {
-        return service.findAll();
+        log.info("findAll()");
+        return service
+                .findAll();
     }
 
     @GetMapping("/{id}")
